@@ -2,12 +2,11 @@ package logger
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
 	"runtime"
 	"strings"
 	"sync"
-
-	"gopkg.in/yaml.v2"
 
 	"github.com/gookit/color"
 
@@ -89,11 +88,11 @@ func (f *Formatter) Format(entry *logrus.Entry) ([]byte, error) {
 	buf.WriteString(Sprint(f.CallerPrettyfier(entry.Caller)))
 	// 写入日志信息
 	buf.WriteString(Sprint(entry.Message))
-	// 换行后写入YAML
+	// 换行后写入JSON
 	buf.WriteString("\n")
 	if entry.Data != nil && len(entry.Data) > 0 {
-		yaml, _ := yaml.Marshal(entry.Data)
-		buf.WriteString(Sprint(string(yaml)))
+		str, _ := json.MarshalIndent(entry.Data, "", "  ")
+		buf.WriteString(Sprint(string(str)))
 	}
 
 	// 返回缓冲区的内容
