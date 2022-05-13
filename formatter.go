@@ -2,13 +2,13 @@ package logger
 
 import (
 	"bytes"
-	"encoding/json"
 	"fmt"
 	"runtime"
 	"strings"
 	"sync"
 
 	"github.com/gookit/color"
+	"gopkg.in/yaml.v2"
 
 	"github.com/sirupsen/logrus"
 )
@@ -91,7 +91,8 @@ func (f *Formatter) Format(entry *logrus.Entry) ([]byte, error) {
 	// 换行后写入JSON
 	buf.WriteString("\n")
 	if entry.Data != nil && len(entry.Data) > 0 {
-		str, _ := json.MarshalIndent(entry.Data, "", "  ")
+		// str, _ := json.MarshalIndent(entry.Data, "", "  ")
+		str, _ := yaml.Marshal(entry.Data)
 		buf.WriteString(Sprint(string(str)))
 	}
 

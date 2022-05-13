@@ -7,9 +7,10 @@ import (
 )
 
 type XXX struct {
-	Str    string `json:"string"`
-	PtrInt *int   `json:"ptr_int"`
-	Int    int
+	Str     string `yaml:"string"`
+	PtrInt  *int   `yaml:"ptr_int,omitempty"`
+	PtrInt2 *int   `yaml:"ptr_int2,omitempty"`
+	Int     int
 }
 
 func main() {
@@ -17,5 +18,5 @@ func main() {
 	logger.WithField("home", "klarkxy").Info("hello")
 	logger.Debug("world")
 	logger.WithError(errors.New("??????")).Error("hahaha")
-	logger.WithField("xxx", &XXX{Str: "hello", PtrInt: nil, Int: 1}).Info("wakaka")
+	logger.WithField("xxx", &XXX{Str: "hello", PtrInt: nil, PtrInt2: new(int), Int: 1}).Info("wakaka")
 }
